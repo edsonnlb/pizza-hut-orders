@@ -7,16 +7,16 @@
     "dialect": "mssql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "PruebasUber",
+    "password": "Luka12345",
+    "database": "PH_UBER",
     "host": "127.0.0.1",
     "dialect": "mssql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "PruebasUber",
+    "password": "Luka12345",
+    "database": "PH_UBER",
     "host": "127.0.0.1",
     "dialect": "mssql"
   }

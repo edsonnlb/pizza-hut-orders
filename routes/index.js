@@ -21,51 +21,66 @@ router.get('/orders', (req, res) => {
 
 router.post('/orders', (req, res) => {
     // Insert Order data
-    db.Order.create(
-        {
-            nomCliente: req.body.NomCliente,
-            subTotalUber: req.body.precio * req.body.cantidad,
-            numOrdenUber: tools.generateRandomStr(6),
-            codRestaurante: COD_RESTAURANTE,
-            orderId: tools.generateRandomStr(10)
-        }
-    ).then(order => {
-            // Insert order details
-            db.OrderDetail.create(
-                {
-                    idEnc: order.id,
-                    numLinea: 1,
-                    codProPosSic: req.body.CodProPosSic,
-                    nomPro: req.body.NomPro,
-                    priceUber: req.body.precio,
-                    preVta: req.body.precio,
-                    cantidad: req.body.cantidad
-                }
-            ).then(detail => {
-                // Insert beverage
-                if (req.body.bebida != 0) {
-                    db.OrderDetail.create(
-                        {
-                            idEnc: order.id,
-                            numLinea: 2,
-                            codProPosSic: BEVERAGE_CODE,
-                            nomPro: BEVERAGE_NAME,
-                            priceUber: BEVERAGE_PRICE,
-                            preVta: BEVERAGE_PRICE,
-                            cantidad: BEVERAGE_QTY
-                        }
-                    ).then(detail => {
+    if (!req.body.noSQL || req.body.noSQL === 0) {
+        db.Order.create(
+            {
+                nomCliente: req.body.NomCliente,
+                subTotalUber: req.body.precio * req.body.cantidad,
+                numOrdenUber: tools.generateRandomStr(6),
+                codRestaurante: COD_RESTAURANTE,
+                orderId: tools.generateRandomStr(10)
+            }
+        ).then(order => {
+                // Insert order details
+                db.OrderDetail.create(
+                    {
+                        idEnc: order.id,
+                        numLinea: 1,
+                        codProPosSic: req.body.CodProPosSic,
+                        nomPro: req.body.NomPro,
+                        priceUber: req.body.precio,
+                        preVta: req.body.precio,
+                        cantidad: req.body.cantidad
+                    }
+                ).then(detail => {
+                    // Insert beverage
+                    if (req.body.bebida != 0) {
+                        db.OrderDetail.create(
+                            {
+                                idEnc: order.id,
+                                numLinea: 2,
+                                codProPosSic: BEVERAGE_CODE,
+                                nomPro: BEVERAGE_NAME,
+                                priceUber: BEVERAGE_PRICE,
+                                preVta: BEVERAGE_PRICE,
+                                cantidad: BEVERAGE_QTY
+                            }
+                        ).then(detail => {
+                            res.sendStatus(200);
+                        });
+                    }
+                    else {
                         res.sendStatus(200);
-                    });
-                }
-                else {
-                    res.sendStatus(200);
-                }
-            });
+                    }
+                });
+            }
+        ).catch(function (err) {
+            res.sendStatus(500);
+        });
+    }
+    else {
+        if (req.body.NomCliente 
+            && req.body.CodProPosSic
+            && req.body.NomPro
+            && req.body.precio
+            && req.body.cantidad
+            && (req.body.bebida || req.body.bebida === 0)) {
+            res.send("OK with no insert");
         }
-    ).catch(function (err) {
-        res.sendStatus(500);
-    });
+        else {
+            res.sendStatus(400);
+        }
+    }
 });
 
 module.exports = router;
