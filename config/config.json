@@ -3,21 +3,21 @@
     "username": "PruebasUber",
     "password": "Luka12345",
     "database": "PH_UBER",
-    "host": "127.0.0.1",
+    "host": "www.clientehut.com",
     "dialect": "mssql"
   },
   "test": {
     "username": "PruebasUber",
     "password": "Luka12345",
     "database": "PH_UBER",
-    "host": "127.0.0.1",
+    "host": "www.clientehut.com",
     "dialect": "mssql"
   },
   "production": {
     "username": "PruebasUber",
     "password": "Luka12345",
     "database": "PH_UBER",
-    "host": "127.0.0.1",
+    "host": "www.clientehut.com",
     "dialect": "mssql"
   }
 }
